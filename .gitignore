@@ -9,6 +9,7 @@
 .markdownlint.json
 .vscode/
 week*/
+w5-lecture-pset-video/
 
 # User-specific files
 *.rsuser
