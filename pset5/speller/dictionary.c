@@ -17,9 +17,8 @@ typedef struct node
 node;
 
 // Number of buckets in hash table
-// N = 28 ** n [hash table will take into account first n letters]
-// See method hash for more info
-const unsigned int N = 28 * 28 * 28 ;
+// N = 2 ** 16 buckets
+const unsigned int N = 64 * 64 * 16;
 
 // Hash table
 node *table[N];
@@ -61,42 +60,16 @@ bool check(const char *word)
 }
 
 // Hashes word to a number
+// djb2 algorithm
 unsigned int hash(const char *word)
 {
-    // Initialize variables
-    unsigned int hash_val = 0;
-    int n_ini = log(N) / log(28);
-    int base = 28;
+    // djb2 algorithm
+    unsigned int hash_val = 5381;
 
-    // base:
-    // \0 a b c d e f g h i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z \'
-    //  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
-    // We take into account word's n_ini first letters to calculate hash value.
+    for (int c = tolower(*(word)), i = 0; c && i < 5; c = tolower(*(word++)), i++)
+        hash_val = ((hash_val << 5) + hash_val) + c; // hash * 33 + c
 
-    // This base system will use more memory bc there are a lot of not permitted
-    // hashes eg word "\0\0\0" does not exist but there is space in hash table
-    // for it
-
-    // Example:
-    // "abcdef" ==> hash_value = int(a) * 28^0 + int(b) * 28^1 + int(c) * 28^2
-    // where int(a) = 1, int(b) = 2 and int(c) = 3.
-    for (int i = 0; i < n_ini; i++)
-    {
-        if (isalpha(word[i]))
-        {
-            hash_val += pow(base, i) * (tolower(word[i]) - 'a' + 1);
-        }
-        else if (word[i] == '\'')
-        {
-            hash_val += pow(base, i) * 27;
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    return hash_val;
+    return hash_val % N;
 }
 
 // Loads dictionary into memory, returning true if successful else false

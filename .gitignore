@@ -10,6 +10,7 @@
 .vscode/
 week*/
 w5-lecture-pset-video/
+*.dsYM/
 
 # User-specific files
 *.rsuser
