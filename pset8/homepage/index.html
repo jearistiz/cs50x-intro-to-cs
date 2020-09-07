@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quantum Computation and Quantum Information</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/images/tab_logo.ico" type="image/x-icon"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://www.holbertonschool.com/level2/holberton.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script src="behavior.js"></script>
+  </head>
+
+  <body class="works_on_smartphone">
+  
+    <div class="header">
+      <a class="white" href="/"><img width="75" alt="logo" src="/images/psi_logo_white.png"></a>
+      <div class="header-right">
+        <a class="btn btn-outline-light active" href="/">Quantum Computing</a>
+        <a class="btn btn-outline-light" href="/qcomputers.html">QC|Computers</a>
+        <a class="btn btn-outline-light" href="/education.html">QC|Education</a>
+        <a class="btn btn-outline-light" href="/tweets.html">QC|Social</a>
+      </div>
+    </div>
+
+
+    <main>
+      <article>
+        <blockquote>
+          "Quantum computation is... nothing less than a distinctly new way of harnessing nature... It will be the
+          first technology that allows useful tasks to be performed in collaboration between parallel universes,
+          and then sharing the results." <span>-David Deutsch</span>
+        </blockquote>
+
+        <h1>What is Quantum Computing?</h1>
+        <p>
+          Quantum computing is the use of quantum-mechanical phenomena such as superposition and entanglement to
+          perform computation. Computers that perform quantum computations are known as quantum computer. Quantum
+          computers are believed to be able to solve certain computational problems, such as integer factorization
+          (which underlies RSA encryption), substantially faster than classical computers. The study of quantum
+          computing is a subfield of quantum information science.
+        </p>
+        <p>
+          The basic unit of quantum computing is a quantum superposition of the states 0 and 1.
+          This quantum superposition is called a <b>qubit</b> and mathematically can be expressed as (click on the
+          equation to enlarge):
+        </p>
+        <p>
+          <img id="smart_thumbnail" class="small" alt="Qubit" src="/images/qubit.png">
+        </p>
+        <p>
+          Each qubit can be mathematically represented as a point in a sphere, usually called the <b>Bloch Sphere</b>, as shown in the
+          image below (click on the image to read more about the Bloch Sphere)
+        </p>
+        <p>
+          <a href="https://en.wikipedia.org/wiki/Bloch_sphere">
+            <img class="alpha img-fluid" alt="Bloch Sphere" width="200" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Bloch_Sphere.svg/800px-Bloch_Sphere.svg.png">
+          </a>
+        </p>
+        <h4>Quantum Computing explained</h4>
+        <div class="embed-container"><iframe src="https://www.youtube.com/embed/JhHMJCUmq28" allowfullscreen></iframe></div>
+          
+        
+        <h2>What is so special about Quantum Computation?</h2>
+        <p>
+          Any computational problem that can be solved by a classical computer can also, in principle, be solved by
+          a quantum computer. Conversely, quantum computers obey the Church–Turing thesis; that is, any computational
+          problem that can be solved by a quantum computer can also be solved by a classical computer. While this means
+          that quantum computers provide no additional advantages over classical computers in terms of computability,
+          they do in theory enable the design of algorithms for certain problems that have significantly lower time
+          complexities than known classical algorithms. Notably, quantum computers are believed to be able to quickly
+          solve certain problems that no classical computer could solve in any feasible amount of time—a feat known as
+          "quantum supremacy." The study of the computational complexity of problems with respect to quantum computers
+          is known as quantum complexity theory.
+        </p>
+        
+        <h3>References</h3>
+        <ul>
+          <li>Wikipedia contributors. (2020, July 30). Quantum computing. In Wikipedia, The Free Encyclopedia. Retrieved 20:35,
+            August 1, 2020, from <a href="https://en.wikipedia.org/w/index.php?title=Quantum_computing&oldid=970271312" target="_blank">this site.</a></li>
+        </ul>
+      </article>
+
+      <aside>
+    <div id="disqus_thread"></div>
+    <script>
+      /**
+      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+      /*
+      var disqus_config = function () {
+      this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+      */
+      (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://quantumcomputing.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </aside>
+    </main>
+
+    <footer>
+      Made by <a style="color: white" href="https://twitter.com/jearistiz" target="_blank">Juan Esteban Aristizabal Zuluaga</a> for
+      <a style="color: white" href="https://cs50.harvard.edu/x/2020/" target="_blank">Harvard's CS50x 2020</a>.
+    </footer>
+  </body>
+</html>

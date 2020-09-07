@@ -1,0 +1,153 @@
+* {
+    font-family: "Consolas", monospace !important;
+    font-size: 20px;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    background-image: url(/images/background.png);
+    background-color: rgba(0,2,5,1);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-attachment: fixed;
+    background-blend-mode: lighten;
+    background-position: center;
+    /* You may add things like width, height, background-size... */
+}
+h1,
+h2,
+h3 {
+    line-height: 1;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+h4 {
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+}
+.center {
+    text-align: center;
+}
+main {
+    display: flex;
+    flex-direction: row;
+    flex: auto;
+}
+article {
+    flex: 2;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.8);
+}
+aside {
+    flex: 1;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.8);
+
+}
+img.logo{
+    height: 80%;
+    width: 80%;
+}
+footer{
+    color: white;
+    text-align: center;
+}
+a.white{
+    color: #f9f9f9;
+}
+p#quote {
+    font-size: 30px;
+}
+blockquote {
+    font-size: 25px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.4;
+    margin: 50px 50px;
+    background: rgba(255, 255, 255, 0.3);
+}
+blockquote > span {
+    font-weight: 500;
+    display: block;
+    margin-top: 10px;
+    font-size: 20px;
+    text-align: right;
+}
+img.alpha {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(255, 255, 255, 0.3);
+}
+img.small {
+    width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(255, 255, 255, 0.3);
+}
+iframe {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.posts{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+header .right{
+    float: right;
+    margin: 0 10px 0px;
+}
+.embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%; }
+.embed-container iframe, .embed-container object, .embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.header-right {
+    float: right;
+    margin: 5px;
+}
+
+.header {
+    background-color: black;
+}
+
+.header img{
+    margin: 5px;
+}
+
+@media screen and (max-width: 680px) {
+    .header a {
+      float: none;
+      display: block;
+      text-align: center;
+      margin: 10px;
+      width: 95%;
+    }
+    .header img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .header-right {
+      float: none;
+      margin: 0px;
+    }
+  }
