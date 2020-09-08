@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    {% if register_success %}
+        <div style="color: green">Your registration was successful!</div><br>
+        Please <a class="btn btn-primary" href="/login">Log In</a>
+    {% else %}
+        <form action="/register" method="post">
+            {% if username_status == "empty" %}
+                <div style="color:red">Please provide a valid username (no spaces)</div><br>
+            {% elif username_status == "not_avaliable" %}
+                <div style="color:red">Username not avaliable</div><br>
+            {% elif psswd_status == "empty" %}
+                <div style="color:red">Please provide and confirm your password</div><br>
+            {% elif psswd_status == "no_coincide" %}
+                <div style="color:red">Your passwords must match</div><br>
+            {% endif %}
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password">
+            </div>
+            <div class="form-group">  
+                <input class="form-control" name="confirmation" placeholder="Confirm Password" type="password">
+            </div>
+            
+            <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+    {% endif %}
+{% endblock %}
