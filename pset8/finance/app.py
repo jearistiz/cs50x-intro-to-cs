@@ -112,7 +112,23 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    return apology("TODO")
+    # If method is GET
+    if request.method == "GET":
+        return render_template("quote.html", ask_price=True)
+    
+    # If method is POST
+    else:
+        # Lookup symbol info
+        symbol_info = lookup(request.form.get("symbol"))
+        
+        # If lookup went ok
+        if symbol_info:
+            symbol_info["price"] = usd(symbol_info["price"])
+            return render_template("quote.html", symb_inf=symbol_info)
+        
+        # If some error in lookup, (probably symbol does not exist)
+        else:
+            return render_template("quote.html", ask_price=True, no_symb=True)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -146,7 +162,7 @@ def register():
         elif username_exists:
             return render_template("register.html", username_status="not_avaliable")
         
-        # Empty password or confirm password
+        # Empty password or empty confirm password
         elif not psswd or not psswd_confirm:
             return render_template("register.html", psswd_status="empty")
 
@@ -164,7 +180,6 @@ def register():
     
     else:
         return render_template("register.html")
-    return apology("TODO")
 
 
 @app.route("/sell", methods=["GET", "POST"])

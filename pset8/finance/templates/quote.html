@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    {% if ask_price %}
+        <form action="/quote" method="post">
+            {% if no_symb %}
+                <div style="color:red">Please provide a valid symbol</div><br>
+            {% endif %}
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Stock's Symbol" type="text">
+            </div>
+            <button class="btn btn-primary" type="submit">Stock's Price</button>
+        </form>
+    {% else %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Company Name</th>
+                    <th>Symbol</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ symb_inf.name }}</td>
+                    <td>{{ symb_inf.symbol }}</td>
+                    <td>{{ symb_inf.price }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <br>
+
+        <h3>Lookup other Symbol</h3>
+        
+        <br>
+        
+        <form action="/quote" method="post">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Stock's Symbol" type="text">
+            </div>
+            <button class="btn btn-primary" type="submit">Stock's Price</button>
+        </form>
+    {% endif %}
+{% endblock %}
