@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    {% if table %}
+        <h3 style="margin: 20px">History of transactions</h3>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Date and time (UTC)</th>
+                    <th>Transaction Type</th>
+                    <th>Company Name</th>
+                    <th>Symbol</th>
+                    <th>Number of Shares</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entry in history%}
+                {% set color = "blue" if entry.transaction_type == "BUY" else "green" %}
+                <tr>
+                    <td>{{ entry.date }}</td>
+                    <td style="color: {{color}}">{{ entry.transaction_type }}</td>
+                    <td>{{ entry.company_name }}</td>
+                    <td>{{ entry.symbol }}</td>
+                    <td>{{ entry.shares }}</td>
+                    <td>{{ entry.total_price }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3 style="color: orange; margin: 20px">You have not bought or sold any shares</h3>
+    {% endif %}
+{% endblock %}
