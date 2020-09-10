@@ -7,7 +7,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required, lookup, usd, utcnow
 
 # Configure application
 app = Flask(__name__)
@@ -44,14 +44,168 @@ if not os.environ.get("API_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
+
+    shrs_symbls_hstry = db.execute(
+        """
+        SELECT DISTINCT symbol FROM history
+        WHERE user_id = :user_id;
+        """, user_id=session["user_id"]
+    )
+    
+    # Stores portfolio of stocks. Each element of the list refers to a
+    # different symbol and will be a dictionary with relevant info of the 
+    # shares owned by user.
+    shrs_owned_now = []
+    owned_shares_total_price = 0.
+        
+    for shares in shrs_symbls_hstry:
+        
+        # Get number of bought and sold 
+        symbol = shares["symbol"]
+
+        bought = db.execute(
+            """
+            SELECT sum(shares) FROM history
+            WHERE user_id = :user_id and transaction_type = "BUY" 
+                and symbol = :symbol;
+            """, user_id=session["user_id"], symbol=symbol
+        )[0]["sum(shares)"]
+
+        sold = db.execute(
+            """
+            SELECT sum(shares) FROM history
+            WHERE user_id = :user_id and transaction_type = "SELL"
+                and symbol = :symbol;
+            """, user_id=session["user_id"], symbol=symbol
+        )[0]["sum(shares)"]
+
+        # Change null values to 0
+        sold = 0 if not sold else sold
+        bought = 0 if not bought else bought
+        
+        # Total owned shares current symbol
+        total_shares = bought - sold
+
+        # Check if user still owns some of the shares for current symbol
+        if total_shares:
+            # Lookup current symbol info
+            share_info = lookup(symbol)
+        else:
+            continue
+
+        if not share_info:
+            return render_template("index.html", lookup_error=True)
+
+        # Total shares' price for current symbol
+        share_info["total_shares"] = total_shares
+        total_price = share_info["price"] * total_shares
+        share_info["price"] = usd(share_info["price"])
+        share_info["total_price"] = usd(total_price)
+        
+        owned_shares_total_price += total_price
+
+        # Add info of shares of current symbol
+        shrs_owned_now.append(share_info)
+
+    # Get ammount of cash and grand totale of current user
+    cash = db.execute(
+        """
+        SELECT * FROM users
+        WHERE id = :user_id;
+        """, user_id=session["user_id"]
+    )[0]["cash"]
+
+    account_balance = {
+        "shares_balance": usd(owned_shares_total_price),
+        "cash": usd(cash),
+        "grand_totale": usd(cash + owned_shares_total_price),
+    }
+    
+    # Render templates (different if user does not own shares)
+    if shrs_owned_now:
+        return render_template(
+            "index.html", 
+            owned_shares=shrs_owned_now,
+            balance=account_balance
+        )
+    else:
+        return render_template(
+            "index.html",
+            no_history=True,
+            balance=account_balance
+        )
 
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+    if request.method == "GET":
+        return render_template("/buy.html", ask_buy=True)
+    
+    else:
+        # Request symbol info
+        symbol_info = lookup(request.form.get("symbol"))
+        
+        # If symbol does not exist or if error while looking up
+        if not symbol_info:
+            return render_template("/buy.html", ask_buy=True, no_symb=True)
+        
+        # If symbol exists:
+        shares = int(request.form.get("shares"))
+        
+        # See ammount of cash of user
+        cash = db.execute(
+            """
+            SELECT * FROM users
+            WHERE id = :user_id;
+            """, user_id=session["user_id"]
+        )[0]["cash"]
+        
+        # Check if user doesn't have enough cash
+        total_price = shares * symbol_info["price"]
+        if cash < total_price:
+            return render_template("/buy.html", ask_buy=True, no_cash=True)
+        
+        # Check if number of shares is negative
+        elif shares <= 0:
+            return render_template("/buy.html", ask_buy=True, negative_shares=True)
+        
+
+        # If all checks passed, register the transaction
+        transaction_info = {
+            "date": utcnow(),
+            "user_id": session["user_id"],
+            "transaction_type": "BUY",
+            "symbol": symbol_info["symbol"],
+            "company_name": symbol_info["name"],
+            "shares": shares,
+            "total_price": total_price,
+        }
+
+        # Register transaction in history
+        db.execute(
+            """
+            INSERT INTO history 
+            (date, user_id, transaction_type, symbol,
+            company_name, shares, total_price)
+            VALUES(:date, :user_id, :transaction_type, :symbol,
+            :company_name, :shares, :total_price);
+            """,
+            **transaction_info
+        )
+        
+        # Register transaction in users (update cash value)
+        db.execute(
+            """
+            UPDATE users
+            SET cash = :new_cash
+            WHERE id = :user_id
+            """,
+            new_cash=cash-total_price, user_id=session["user_id"]
+        )
+
+        return render_template("/buy.html", trnscn_inf=transaction_info)
 
 
 @app.route("/history")

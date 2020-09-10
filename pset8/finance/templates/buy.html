@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    {% if ask_buy %}
+        <form action="/buy" method="post">
+            {% if no_symb %}
+                <div style="color:red">Please provide a valid symbol</div><br>
+            {% elif no_cash %}
+                <div style="color:red">You dont have enough cash</div><br>
+            {% elif negative_shares %}
+                <div style="color:red">Number of shares must be positive</div><br>
+            {% endif %}
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Stock's Symbol" type="text">
+            </div>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="Number of Shares" type="number">
+            </div>
+            <button class="btn btn-primary" type="submit">BUY</button>
+        </form>
+    {% else %}
+        <h3 style="color: green; margin: 20px">Success: you have just bought the following shares</h3>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Date and time (UTC)</th>
+                    <th>Transaction Type</th>
+                    <th>Company Name</th>
+                    <th>Symbol</th>
+                    <th>Number of Shares</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ trnscn_inf.date }}</td>
+                    <td>{{ trnscn_inf.transaction_type }}</td>
+                    <td>{{ trnscn_inf.company_name }}</td>
+                    <td>{{ trnscn_inf.symbol }}</td>
+                    <td>{{ trnscn_inf.shares }}</td>
+                    <td>{{ trnscn_inf.total_price }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <br>
+        <br>
+        
+        <form action="/buy" method="get">
+            <button class="btn btn-primary" type="submit">BUY MORE SHARES</button>
+        </form>
+    {% endif %}
+{% endblock %}

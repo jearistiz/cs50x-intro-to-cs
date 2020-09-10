@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    {% if lookup_error %}
+        <!-- TODO -->
+        <h3 style="color: red">Error: could not get info of one or more of your owned stocks, please try again</h3>
+        <br>
+    {% elif owned_shares%}
+        <h3>Portfolio</h3>
+        <br>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Company Name</th>
+                    <th>Symbol</th>
+                    <th>Share price</th>
+                    <th>Number of Shares</th>
+                    <th>Value of holding</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for symbol in owned_shares%}
+                <tr>
+                    <td>{{ symbol.name }}</td>
+                    <td>{{ symbol.symbol }}</td>
+                    <td>{{ symbol.price }}</td>
+                    <td>{{ symbol.total_shares }}</td>
+                    <td>{{ symbol.total_price }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    
+    <!-- Display message if user does not own shares -->
+    {% if no_history %}
+        <!-- TODO -->
+        <h3 style="color: orange">You currently own no shares</h3>
+        <br>
+    {% endif %}
+
+    <!-- Display total account balance -->
+    {% if balance %}
+        <br>
+        <br>
+        <h3>Account Balance</h3>
+        <br>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th></th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Shares</td>
+                    <td>{{ balance.shares_balance }}</td>
+                </tr>
+                <tr>
+                    <td>Cash</td>
+                    <td>{{ balance.cash }}</td>
+                </tr>
+                <tr>
+                    <td>Cash + Shares</td>
+                    <td>{{ balance.grand_totale }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
