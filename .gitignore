@@ -11,6 +11,10 @@
 week*/
 w5-lecture-pset-video/
 *.dsYM/
+video*
+*.mp4
+*.m4a
+*.mov
 
 # User-specific files
 *.rsuser
